@@ -30,10 +30,6 @@ button {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* =========================
-   GENERAL
-========================= */
-
 .screen {
     min-height: 100vh;
     width: 100%;
@@ -49,9 +45,7 @@ button {
     display: none !important;
 }
 
-/* =========================
-   BACKGROUND
-========================= */
+/* BACKGROUND */
 
 .background-glow {
     position: absolute;
@@ -63,9 +57,7 @@ button {
     pointer-events: none;
 }
 
-/* =========================
-   INTRO
-========================= */
+/* INTRO */
 
 #intro {
     background:
@@ -167,9 +159,7 @@ button {
     }
 }
 
-/* =========================
-   INVESTIGATION
-========================= */
+/* INVESTIGATION */
 
 #investigation {
     background:
@@ -268,9 +258,7 @@ button {
     transition: width 0.1s linear;
 }
 
-/* =========================
-   REVEAL
-========================= */
+/* REVEAL */
 
 #reveal {
     background:
@@ -326,9 +314,7 @@ button {
     line-height: 1.7;
 }
 
-/* =========================
-   STICK MEN
-========================= */
+/* STICK MEN */
 
 .stick-stage {
     width: 100%;
@@ -337,8 +323,6 @@ button {
     margin: 25px auto 5px;
     position: relative;
 }
-
-/* Stick man */
 
 .stick-man {
     position: absolute;
@@ -355,8 +339,6 @@ button {
     right: 16%;
 }
 
-/* Head */
-
 .head {
     position: absolute;
     width: 52px;
@@ -368,8 +350,6 @@ button {
     background: #09050e;
 }
 
-/* Body */
-
 .body {
     position: absolute;
     width: 5px;
@@ -378,8 +358,6 @@ button {
     top: 51px;
     background: #ad4dff;
 }
-
-/* Legs */
 
 .leg {
     position: absolute;
@@ -399,8 +377,6 @@ button {
     transform: rotate(118deg);
 }
 
-/* Arms */
-
 .arm {
     position: absolute;
     width: 65px;
@@ -418,8 +394,6 @@ button {
 .arm-right {
     transform: rotate(35deg);
 }
-
-/* Middle finger */
 
 .middle-finger {
     position: absolute;
@@ -456,7 +430,7 @@ button {
     }
 }
 
-/* Speech bubbles */
+/* SPEECH */
 
 .speech {
     position: absolute;
@@ -491,9 +465,7 @@ button {
     }
 }
 
-/* =========================
-   AUDIO
-========================= */
+/* AUDIO */
 
 .audio-box {
     width: 100%;
@@ -512,6 +484,7 @@ button {
 }
 
 audio {
+    display: block;
     width: 100%;
 }
 
@@ -526,9 +499,11 @@ audio {
     cursor: pointer;
 }
 
-/* =========================
-   CONFETTI
-========================= */
+.play-button:hover {
+    transform: scale(1.04);
+}
+
+/* CONFETTI */
 
 .confetti {
     position: fixed;
@@ -547,9 +522,7 @@ audio {
     }
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media (max-width: 600px) {
 
@@ -600,9 +573,7 @@ audio {
 
 <body>
 
-<!-- =========================
-     INTRO
-========================= -->
+<!-- INTRO -->
 
 <section id="intro" class="screen">
 
@@ -641,9 +612,7 @@ audio {
 </section>
 
 
-<!-- =========================
-     INVESTIGATION
-========================= -->
+<!-- INVESTIGATION -->
 
 <section id="investigation" class="screen hidden">
 
@@ -713,9 +682,7 @@ audio {
 </section>
 
 
-<!-- =========================
-     REVEAL
-========================= -->
+<!-- REVEAL -->
 
 <section id="reveal" class="screen hidden">
 
@@ -756,8 +723,6 @@ audio {
             </div>
 
 
-            <!-- LEFT STICK MAN -->
-
             <div class="stick-man left">
 
                 <div class="head"></div>
@@ -777,11 +742,8 @@ audio {
             </div>
 
 
-            <!-- RIGHT STICK MAN -->
-
-            <div
-                class="stick-man right"
-                style="transform: scaleX(-1);">
+            <div class="stick-man right"
+                 style="transform: scaleX(-1);">
 
                 <div class="head"></div>
 
@@ -802,7 +764,7 @@ audio {
         </div>
 
 
-        <!-- AUDIO -->
+        <!-- SONG -->
 
         <div class="audio-box">
 
@@ -816,7 +778,7 @@ audio {
                 preload="metadata">
 
                 <source
-                    src="friends.mp3"
+                    src="./friends.mp3"
                     type="audio/mpeg">
 
                 Your browser does not support audio.
@@ -851,7 +813,6 @@ function startInvestigation() {
         .classList.remove("hidden");
 
     runInvestigation();
-
 }
 
 
@@ -894,7 +855,6 @@ function runInvestigation() {
             }
 
         }, 35);
-
 }
 
 
@@ -909,7 +869,6 @@ function showReveal() {
         .classList.remove("hidden");
 
     createConfetti();
-
 }
 
 
@@ -925,7 +884,6 @@ function playSong() {
         );
 
     });
-
 }
 
 
@@ -973,7 +931,6 @@ function createConfetti() {
         }, 7000);
 
     }
-
 }
 
 </script>
