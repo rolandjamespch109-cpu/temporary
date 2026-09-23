@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>V of BTS: Crimes Revealed</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #08040d;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: rgba(132, 44, 194, 0.18);
+    filter: blur(100px);
+    pointer-events: none;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+#intro {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(127, 37, 176, 0.20),
+            transparent 55%
+        ),
+        #08040d;
+}
+
+.intro-content {
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.alert {
+    display: inline-block;
+    border: 1px solid #ff315d;
+    color: #ff315d;
+    padding: 8px 15px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+    animation: blink 1s infinite alternate;
+}
+
+.intro-content h1 {
+    font-size: clamp(42px, 10vw, 82px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -4px;
+}
+
+.intro-content h1 span {
+    color: #b75cff;
+    text-shadow: 0 0 35px rgba(183, 92, 255, 0.5);
+}
+
+.intro-content p {
+    max-width: 620px;
+    margin: 28px auto 0;
+    color: #c8bccd;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.main-button {
+    margin-top: 35px;
+    border: none;
+    background: #a63cff;
+    color: white;
+    padding: 16px 30px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 35px rgba(166, 60, 255, 0.4);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.main-button:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 50px rgba(166, 60, 255, 0.7);
+}
+
+.scan-line {
+    position: absolute;
+    left: 0;
+    top: -10px;
+    width: 100%;
+    height: 2px;
+    background: rgba(181, 92, 255, 0.35);
+    animation: scan 5s linear infinite;
+}
+
+@keyframes scan {
+    from {
+        top: -10px;
+    }
+
+    to {
+        top: 110%;
+    }
+}
+
+@keyframes blink {
+    from {
+        opacity: 0.45;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* =========================
+   INVESTIGATION
+========================= */
+
+#investigation {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(100, 32, 145, 0.20),
+            transparent 55%
+        ),
+        #07040b;
+}
+
+.investigation-content {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.case-number {
+    color: #8d7b96;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+.investigation-content h2 {
+    font-size: clamp(32px, 8vw, 60px);
+    margin-bottom: 15px;
+}
+
+.investigation-content > p {
+    max-width: 600px;
+    margin: auto;
+    color: #b8abbf;
+    line-height: 1.7;
+}
+
+.evidence-box {
+    max-width: 650px;
+    margin: 35px auto 0;
+    padding: 22px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid #33233c;
+    border-radius: 20px;
+    text-align: left;
+}
+
+.evidence-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #25192c;
+    color: #a99cad;
+}
+
+.evidence-row:last-child {
+    border-bottom: none;
+}
+
+.evidence-row strong {
+    color: white;
+    text-align: right;
+}
+
+.suspicious {
+    color: #ff426a !important;
+}
+
+.progress-container {
+    width: 100%;
+    max-width: 550px;
+    margin: 30px auto 0;
+}
+
+.progress-text {
+    color: #a594ab;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.progress-background {
+    width: 100%;
+    height: 8px;
+    background: #201624;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #ad4dff;
+    box-shadow: 0 0 20px #ad4dff;
+    transition: width 0.1s linear;
+}
+
+/* =========================
+   REVEAL
+========================= */
+
+#reveal {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(146, 50, 203, 0.28),
+            transparent 55%
+        ),
+        #09050e;
+}
+
+.reveal-content {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.complete {
+    color: #a98eae;
+    font-size: 11px;
+    letter-spacing: 5px;
+    margin-bottom: 18px;
+}
+
+.reveal-content h2 {
+    font-size: clamp(50px, 12vw, 105px);
+    line-height: 0.85;
+    letter-spacing: -6px;
+    text-transform: uppercase;
+}
+
+.reveal-content h2 span {
+    color: #b85cff;
+    text-shadow: 0 0 35px rgba(184, 92, 255, 0.55);
+}
+
+.crime-title {
+    margin-top: 25px;
+    font-size: clamp(21px, 5vw, 36px);
+    font-weight: bold;
+}
+
+.crime-title span {
+    color: #d274ff;
+}
+
+.reveal-description {
+    max-width: 650px;
+    margin: 20px auto 0;
+    color: #bfb2c5;
+    line-height: 1.7;
+}
+
+/* =========================
+   STICK MEN
+========================= */
+
+.stick-stage {
+    width: 100%;
+    max-width: 650px;
+    height: 270px;
+    margin: 25px auto 5px;
+    position: relative;
+}
+
+/* Stick man */
+
+.stick-man {
+    position: absolute;
+    width: 120px;
+    height: 220px;
+    bottom: 10px;
+}
+
+.stick-man.left {
+    left: 16%;
+}
+
+.stick-man.right {
+    right: 16%;
+}
+
+/* Head */
+
+.head {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    left: 34px;
+    top: 0;
+    border: 5px solid #ad4dff;
+    border-radius: 50%;
+    background: #09050e;
+}
+
+/* Body */
+
+.body {
+    position: absolute;
+    width: 5px;
+    height: 90px;
+    left: 58px;
+    top: 51px;
+    background: #ad4dff;
+}
+
+/* Legs */
+
+.leg {
+    position: absolute;
+    width: 65px;
+    height: 5px;
+    left: 58px;
+    top: 138px;
+    background: #ad4dff;
+    transform-origin: left center;
+}
+
+.leg-left {
+    transform: rotate(62deg);
+}
+
+.leg-right {
+    transform: rotate(118deg);
+}
+
+/* Arms */
+
+.arm {
+    position: absolute;
+    width: 65px;
+    height: 5px;
+    left: 58px;
+    top: 75px;
+    background: #ad4dff;
+    transform-origin: left center;
+}
+
+.arm-left {
+    transform: rotate(145deg);
+}
+
+.arm-right {
+    transform: rotate(35deg);
+}
+
+/* Middle finger */
+
+.middle-finger {
+    position: absolute;
+    width: 16px;
+    height: 43px;
+    left: 112px;
+    top: 33px;
+    background: #ad4dff;
+    border-radius: 10px 10px 3px 3px;
+    transform: rotate(35deg);
+    transform-origin: bottom center;
+    animation: fingerMove 1.3s ease-in-out infinite;
+}
+
+.middle-finger::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 17px;
+    left: -7px;
+    bottom: -5px;
+    background: #ad4dff;
+    border-radius: 10px;
+}
+
+@keyframes fingerMove {
+    0%,
+    100% {
+        transform: rotate(35deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(35deg) translateY(-10px);
+    }
+}
+
+/* Speech bubbles */
+
+.speech {
+    position: absolute;
+    top: 5px;
+    padding: 9px 13px;
+    background: white;
+    color: #160b1d;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    animation: speechFloat 2s ease-in-out infinite;
+}
+
+.speech-one {
+    left: 0;
+}
+
+.speech-two {
+    right: 0;
+    animation-delay: 0.5s;
+}
+
+@keyframes speechFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+/* =========================
+   AUDIO
+========================= */
+
+.audio-box {
+    width: 100%;
+    max-width: 520px;
+    margin: 20px auto 0;
+    padding: 20px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid #382440;
+    border-radius: 20px;
+}
+
+.audio-title {
+    color: #b69dbd;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+audio {
+    width: 100%;
+}
+
+.play-button {
+    margin-top: 15px;
+    border: none;
+    background: #ad4dff;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* =========================
+   CONFETTI
+========================= */
+
+.confetti {
+    position: fixed;
+    top: -20px;
+    width: 8px;
+    height: 8px;
+    z-index: 20;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .intro-content h1 {
+        letter-spacing: -2px;
+    }
+
+    .evidence-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .evidence-row strong {
+        text-align: left;
+    }
+
+    .stick-stage {
+        height: 245px;
+    }
+
+    .stick-man.left {
+        left: 0;
+        transform: scale(0.78);
+        transform-origin: bottom left;
+    }
+
+    .stick-man.right {
+        right: 0;
+        transform: scale(0.78) scaleX(-1);
+        transform-origin: bottom right;
+    }
+
+    .speech {
+        font-size: 9px;
+        padding: 7px 9px;
+    }
+
+    .speech-one {
+        left: 0;
+    }
+
+    .speech-two {
+        right: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section id="intro" class="screen">
+
+    <div class="background-glow"></div>
+
+    <div class="scan-line"></div>
+
+    <div class="intro-content">
+
+        <div class="alert">
+            ⚠ CLASSIFIED INVESTIGATION
+        </div>
+
+        <h1>
+            V OF BTS:<br>
+            <span>CRIMES REVEALED</span>
+        </h1>
+
+        <p>
+            For years, the truth has remained hidden.
+            After investigating the evidence and gathering
+            information surrounding the case, the truth
+            can no longer be ignored.
+            <br><br>
+            The evidence is absolutely devastating.
+        </p>
+
+        <button
+            class="main-button"
+            onclick="startInvestigation()">
+            VIEW THE EVIDENCE
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     INVESTIGATION
+========================= -->
+
+<section id="investigation" class="screen hidden">
+
+    <div class="investigation-content">
+
+        <div class="case-number">
+            CASE FILE #FRIEND-001
+        </div>
+
+        <h2>
+            Evidence Collection
+        </h2>
+
+        <p>
+            The investigation is analysing the available
+            evidence. Please remain patient while the system
+            verifies the information.
+        </p>
+
+        <div class="evidence-box">
+
+            <div class="evidence-row">
+                <span>Suspect</span>
+                <strong>Kim Taehyung</strong>
+            </div>
+
+            <div class="evidence-row">
+                <span>Known alias</span>
+                <strong>V</strong>
+            </div>
+
+            <div class="evidence-row">
+                <span>Affiliation</span>
+                <strong>BTS</strong>
+            </div>
+
+            <div class="evidence-row">
+                <span>Evidence status</span>
+                <strong class="suspicious">
+                    EXTREMELY SUSPICIOUS
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="progress-container">
+
+            <div
+                id="progressText"
+                class="progress-text">
+                Analysing evidence... 0%
+            </div>
+
+            <div class="progress-background">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     REVEAL
+========================= -->
+
+<section id="reveal" class="screen hidden">
+
+    <div class="reveal-content">
+
+        <div class="complete">
+            INVESTIGATION COMPLETE
+        </div>
+
+        <h2>
+            THE <span>CRIME</span>
+        </h2>
+
+        <div class="crime-title">
+            He made <span>FRI(END)S</span> way too damn good. 😭
+        </div>
+
+        <p class="reveal-description">
+            After extensive investigation, multiple rounds
+            of unnecessary analysis, and absolutely no sleep,
+            the evidence is undeniable.
+            <br><br>
+            The only crime committed here was making a song
+            this ridiculously addictive.
+        </p>
+
+
+        <!-- STICK MEN -->
+
+        <div class="stick-stage">
+
+            <div class="speech speech-one">
+                YOU REALLY THOUGHT 💀
+            </div>
+
+            <div class="speech speech-two">
+                GOTCHA 😭
+            </div>
+
+
+            <!-- LEFT STICK MAN -->
+
+            <div class="stick-man left">
+
+                <div class="head"></div>
+
+                <div class="body"></div>
+
+                <div class="arm arm-left"></div>
+
+                <div class="arm arm-right"></div>
+
+                <div class="middle-finger"></div>
+
+                <div class="leg leg-left"></div>
+
+                <div class="leg leg-right"></div>
+
+            </div>
+
+
+            <!-- RIGHT STICK MAN -->
+
+            <div
+                class="stick-man right"
+                style="transform: scaleX(-1);">
+
+                <div class="head"></div>
+
+                <div class="body"></div>
+
+                <div class="arm arm-left"></div>
+
+                <div class="arm arm-right"></div>
+
+                <div class="middle-finger"></div>
+
+                <div class="leg leg-left"></div>
+
+                <div class="leg leg-right"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AUDIO -->
+
+        <div class="audio-box">
+
+            <div class="audio-title">
+                🎵 THE ACTUAL EVIDENCE
+            </div>
+
+            <audio
+                id="song"
+                controls
+                preload="metadata">
+
+                <source
+                    src="friends.mp3"
+                    type="audio/mpeg">
+
+                Your browser does not support audio.
+
+            </audio>
+
+            <button
+                class="play-button"
+                onclick="playSong()">
+
+                ▶ PLAY THE EVIDENCE
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+function startInvestigation() {
+
+    document
+        .getElementById("intro")
+        .classList.add("hidden");
+
+    document
+        .getElementById("investigation")
+        .classList.remove("hidden");
+
+    runInvestigation();
+
+}
+
+
+function runInvestigation() {
+
+    let progress = 0;
+
+    const bar =
+        document.getElementById("progressBar");
+
+    const text =
+        document.getElementById("progressText");
+
+    const timer =
+        setInterval(function() {
+
+            progress++;
+
+            bar.style.width =
+                progress + "%";
+
+            text.textContent =
+                "Analysing evidence... " +
+                progress +
+                "%";
+
+            if (progress >= 100) {
+
+                clearInterval(timer);
+
+                text.textContent =
+                    "Evidence confirmed. 💀";
+
+                setTimeout(function() {
+
+                    showReveal();
+
+                }, 1200);
+
+            }
+
+        }, 35);
+
+}
+
+
+function showReveal() {
+
+    document
+        .getElementById("investigation")
+        .classList.add("hidden");
+
+    document
+        .getElementById("reveal")
+        .classList.remove("hidden");
+
+    createConfetti();
+
+}
+
+
+function playSong() {
+
+    const song =
+        document.getElementById("song");
+
+    song.play().catch(function() {
+
+        alert(
+            "Tap the play button on the audio player to start the song."
+        );
+
+    });
+
+}
+
+
+function createConfetti() {
+
+    for (
+        let i = 0;
+        i < 80;
+        i++
+    ) {
+
+        const piece =
+            document.createElement("div");
+
+        piece.className =
+            "confetti";
+
+        piece.style.left =
+            Math.random() * 100 + "vw";
+
+        piece.style.background =
+            [
+                "#a63cff",
+                "#d66cff",
+                "#ffffff",
+                "#7f32a8"
+            ][
+                Math.floor(
+                    Math.random() * 4
+                )
+            ];
+
+        piece.style.animationDuration =
+            (2 + Math.random() * 4) + "s";
+
+        piece.style.animationDelay =
+            Math.random() * 1.5 + "s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(function() {
+
+            piece.remove();
+
+        }, 7000);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
